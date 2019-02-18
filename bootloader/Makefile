@@ -1,10 +1,13 @@
 
+CC=pdp11-aout-gcc
+CFLAGS=-I../kernel/include/
+OBJCOPY=pdp11-aout-objcopy
 
 boot.bin: boot.o
 	$(OBJCOPY) -O binary $^ $@
 
 boot.o: boot.s
-	$(CC) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 .PHONY: clean
 

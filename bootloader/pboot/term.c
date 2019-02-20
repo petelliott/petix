@@ -1,14 +1,4 @@
-#include <a.out.h>
-#include "stage2.h"
-
-/* make sure this is located at 00 */
-void _start(void) {
-    write_str("wecome the bootloader\r\n");
-    while (1) {
-        write_term_ch(read_term_ch());
-    }
-}
-
+#include "term.h"
 
 static int *const printer_data   = (int *) 0177566;
 static int *const printer_status = (int *) 0177564;

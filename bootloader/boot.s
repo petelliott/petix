@@ -4,7 +4,7 @@
 .set PROG_OFF, 0130000
 .set EP_DATA,  0130012
 .set PROG_STACK, 0160000
-.set WORD_COUNT, -256 //number of words for second stage boot loader
+.set WORD_COUNT, -1024 //number of words for second stage boot loader
 
 start:
         //MOV $063, @$0177566

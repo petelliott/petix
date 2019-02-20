@@ -1,7 +1,7 @@
 CC=pdp11-aout-gcc
 CFLAGS=-I../../kernel/include/ -nostdlib -ffreestanding
 
-OBJS=main.o term.o disk.o
+OBJS=main.o term.o disk.o input.o
 
 pboot: $(OBJS)
 	$(CC) -T pboot.ld $(CFLAGS) $^ -o $@ -s

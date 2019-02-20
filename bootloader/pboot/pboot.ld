@@ -7,7 +7,7 @@ PROVIDE (__stack = 0);
 ENTRY(__start);
 SECTIONS
 {
-  . = 0130020;
+  . = 0130000 + SIZEOF_HEADERS;
   .text :
   {
     CREATE_OBJECT_SYMBOLS

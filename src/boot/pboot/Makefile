@@ -1,9 +1,8 @@
-CC=pdp11-aout-gcc
-CFLAGS=-I../../kernel/include/ -nostdlib -ffreestanding
+CFLAGS +=-nostdlib -ffreestanding
 
 OBJS=main.o term.o disk.o input.o
 
-pboot: $(OBJS)
+$(ROOT)/boot/pboot: $(OBJS)
 	$(CC) -T pboot.ld $(CFLAGS) $^ -o $@ -s
 
 %.o: %.s
@@ -15,4 +14,4 @@ pboot: $(OBJS)
 .PHONY: clean
 
 clean:
-	rm -rf *.o pboot
+	rm -rf *.o $(ROOT)/boot/pboot

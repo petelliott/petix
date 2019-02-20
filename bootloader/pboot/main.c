@@ -23,6 +23,12 @@ void _start(void) {
                 break;
             case BOOT:
                 write_str("this is when we should boot\r\n");
+                write_term_ch(cmd.cmd_data.boot.disktype[0]);
+                write_term_ch(cmd.cmd_data.boot.disktype[1]);
+                write_term_ch(cmd.cmd_data.boot.diskn + '0');
+                write_str("\r\n");
+                write_str(cmd.cmd_data.boot.bootf);
+                write_str("\r\n");
                 break;
             case HELP:
                 write_str("halt\r\n"
@@ -33,5 +39,4 @@ void _start(void) {
                 write_str("operation not supported\r\n");
         }
     }
-
 }

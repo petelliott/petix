@@ -46,6 +46,10 @@ int read_cmd_type(char **str, enum pboot_cmd_type *ctype) {
         *ctype = BOOT;
     } else if (tok_equal(str, "halt")) {
         *ctype = HALT;
+    } else if (tok_equal(str, "hwtest")) {
+        *ctype = HW_TEST;
+    } else if (tok_equal(str, "hwdet")) {
+        *ctype = HW_DETECT;
     } else if (tok_equal(str, "help")) {
         *ctype = HELP;
     } else {
@@ -64,6 +68,7 @@ int read_pboot_boot(char **str, struct pboot_boot *boot) {
     boot->disktype[1] = (*str)[1];
     boot->diskn = (*str)[2] - '0';
 
+    *str += 3;
     skip_wspace(*str);
 
     boot->bootf = *str;

@@ -1,4 +1,4 @@
 image.dsk
-root
-tools
+/root
+/tools
 *.o

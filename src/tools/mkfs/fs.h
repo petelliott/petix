@@ -1,34 +1,36 @@
 #ifndef PETIX_FS_H
 #define PETIX_FS_H
 
+#include <stdint.h>
+
 #define BLOCK_SIZE 512
 
 #define FS_MAGIC 030216
 
 struct superblock_h {
-    unsigned int magic;
-    unsigned int nspecial;
-    unsigned int nblocks;
-    unsigned int ninodes;
+    uint16_t magic;
+    uint16_t n_special;
+    uint16_t nblocks;
+    uint16_t ninodes;
 };
 
 struct superblock {
     struct superblock_h *header;
-    unsigned int *bmap_bytes;
+    uint16_t *bmap_bytes;
     char *bmap;
-    unsigned int *imap_bytes;
+    uint16_t *imap_bytes;
     char *imap;
 };
 
 struct inode {
-    int flags;
-    unsigned char nlinks;
-    unsigned char uid;
-    unsigned int size;
-    unsigned int blocks[8];
-    unsigned int unused;
-    unsigned long creat_time;
-    unsigned long mod_time;
+    uint16_t flags;
+    uint8_t nlinks;
+    uint8_t uid;
+    uint16_t size;
+    uint16_t blocks[8];
+    uint16_t unused;
+    uint32_t creat_time;
+    uint32_t mod_time;
 };
 
 #define INODE_ALLOCATED 0100000
@@ -45,7 +47,7 @@ struct inode {
 #define FIRST_INODE     040
 
 struct dentry_row {
-    unsigned int inode;
+    uint16_t inode;
     char name[14];
 };
 

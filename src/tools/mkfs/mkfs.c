@@ -11,7 +11,7 @@ void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes) {
     sb->bmap_bytes = (void *) ((char *)sb->header + sizeof(struct superblock_h));
     *(sb->bmap_bytes) = 2 * (nblocks/16 + 16);
     sb->bmap = ((char *) sb->bmap_bytes) + 2;
-    memset(sb->bmap, 0xff, *(sb->bmap_bytes));
+    memset(sb->bmap, 0x00, *(sb->bmap_bytes));
 
     sb->imap_bytes = (void *) ((char *) sb->bmap + *(sb->bmap_bytes));
     *(sb->imap_bytes) = 2 * (ninodes/16 + 16);
@@ -21,27 +21,36 @@ void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes) {
 
 static int first_free(char b) {
     for (int i = 0; i < 8; ++i) {
-        if ((b>>i) & 1 == 0) {
+        if (((b>>i) & 1) == 0) {
             return i;
         }
     }
+    return 0;
 }
 
 uint16_t allocate_block(struct superblock *sb) {
     for (int i = 0; i < *(sb->bmap_bytes); ++i) {
         if (sb->bmap[i] < 0xffu) {
-            return 2 + i*8 + first_free(sb->bmap[i]);
+            int ffree = first_free(sb->bmap[i]);
+            sb->bmap[i] |= (1 << ffree);
+            return 3 + i*8 + ffree;
         }
     }
+    return 0;
 }
 
 uint16_t allocate_inode(struct superblock *sb) {
-
+    for (int i = 0; i < *(sb->imap_bytes); ++i) {
+        if (sb->imap[i] < 0xffu) {
+            int ffree = first_free(sb->imap[i]);
+            sb->imap[i] |= (1 << ffree);
+            return 1 + i*8 + ffree;
+        }
+    }
+    return 0;
 }
 
-uint16_t mkdir(struct superblock *sb, char *dev) {
-
-}
+uint16_t mkdir(struct superblock *sb, char *dev);
 
 uint16_t mkfile(struct superblock *sb, char *dev,  uint16_t size);
 

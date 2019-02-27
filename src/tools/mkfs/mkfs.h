@@ -13,7 +13,7 @@ struct inode *get_inode(char *dev, uint16_t inum);
 uint16_t mkdir(struct superblock *sb, char *dev);
 uint16_t mkfile(struct superblock *sb, char *dev);
 
-void copy_to_file(char *dev, uint16_t inode, const void *data, uint16_t n);
-void insert_to_dir(char *dev, uint16_t dinode, const char *name, uint16_t inode);
+void copy_to_file(struct superblock *sb, char *dev, uint16_t inode, const void *data, uint16_t n);
+void insert_to_dir(struct superblock *sb, char *dev, uint16_t dinode, const char *name, uint16_t inode);
 
 #endif

@@ -32,7 +32,12 @@ int main(int argc, char **argv) {
     struct superblock sb;
     mk_superblock(dev, &sb, nblocks, ninodes);
 
-    printf("%i\n", mkdir(&sb, dev));
+    uint16_t d1 = mkdir(&sb, dev);
+    uint16_t d2 = mkdir(&sb, dev);
+    printf("%i %i\n", d1, d2);
+
+    insert_to_dir(&sb, dev, d1, "testfile", d2);
+
     munmap(dev, nblocks*BLOCK_SIZE);
     close(fd);
 

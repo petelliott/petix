@@ -4,7 +4,7 @@ DIRS=boot include tools
 PATHS=$(ROOT)
 
 BUILDROOT=$(shell pwd)
-CFLAGS=-I$(BUILDROOT)/include/include -O2
+CFLAGS +=-I$(BUILDROOT)/include/include
 export BUILDROOT
 export CFLAGS
 

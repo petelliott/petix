@@ -46,7 +46,7 @@ struct inode {
 
 #define FIRST_INODE     040
 
-struct dentry_row {
+struct dentry {
     uint16_t inode;
     char name[14];
 };

@@ -19,7 +19,30 @@ void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes) {
     memset(sb->imap, 0x00, *(sb->imap_bytes));
 }
 
-uint16_t mkdir(struct superblock *sb, char *dev);
+static int first_free(char b) {
+    for (int i = 0; i < 8; ++i) {
+        if ((b>>i) & 1 == 0) {
+            return i;
+        }
+    }
+}
+
+uint16_t allocate_block(struct superblock *sb) {
+    for (int i = 0; i < *(sb->bmap_bytes); ++i) {
+        if (sb->bmap[i] < 0xffu) {
+            return 2 + i*8 + first_free(sb->bmap[i]);
+        }
+    }
+}
+
+uint16_t allocate_inode(struct superblock *sb) {
+
+}
+
+uint16_t mkdir(struct superblock *sb, char *dev) {
+
+}
+
 uint16_t mkfile(struct superblock *sb, char *dev,  uint16_t size);
 
 void copy_to_file(char *dev, uint16_t inode, const void *data, uint16_t n);

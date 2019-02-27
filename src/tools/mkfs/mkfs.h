@@ -5,6 +5,9 @@
 
 void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes);
 
+uint16_t allocate_block(struct superblock *sb);
+uint16_t allocate_inode(struct superblock *sb);
+
 uint16_t mkdir(struct superblock *sb, char *dev);
 uint16_t mkfile(struct superblock *sb, char *dev,  uint16_t size);
 

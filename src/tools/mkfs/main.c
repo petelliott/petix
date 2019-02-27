@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     struct superblock sb;
     mk_superblock(dev, &sb, nblocks, ninodes);
 
-
+    printf("%i\n", mkdir(&sb, dev));
     munmap(dev, nblocks*BLOCK_SIZE);
     close(fd);
 

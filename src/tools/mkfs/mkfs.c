@@ -12,6 +12,7 @@ void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes) {
     *(sb->bmap_bytes) = 2 * (nblocks/16 + 16);
     sb->bmap = ((char *) sb->bmap_bytes) + 2;
     memset(sb->bmap, 0x00, *(sb->bmap_bytes));
+    memset(sb->bmap,  0xff, ((ninodes/16)/8) + 1);
 
     sb->imap_bytes = (void *) ((char *) sb->bmap + *(sb->bmap_bytes));
     *(sb->imap_bytes) = 2 * (ninodes/16 + 16);
@@ -44,15 +45,33 @@ uint16_t allocate_inode(struct superblock *sb) {
         if (sb->imap[i] < 0xffu) {
             int ffree = first_free(sb->imap[i]);
             sb->imap[i] |= (1 << ffree);
-            return 1 + i*8 + ffree;
+            return i*8 + ffree;
         }
     }
-    return 0;
+    return 0xffffu;
 }
 
-uint16_t mkdir(struct superblock *sb, char *dev);
+struct inode *get_inode(char *dev, uint16_t inum) {
+    return (struct inode *)(dev + 3*BLOCK_SIZE + 32*inum);
+}
 
-uint16_t mkfile(struct superblock *sb, char *dev,  uint16_t size);
+uint16_t mkdir(struct superblock *sb, char *dev) {
+    uint16_t inum = allocate_inode(sb);
+    struct inode *inode = get_inode(dev, inum);
+    *inode = (struct inode){
+        .flags = INODE_ALLOCATED | INODE_DIRECTORY | INODE_MODIFIED,
+        .nlinks = 1,
+        .uid = 0,
+        .size = 0,
+        .blocks = {0},
+        .unused = 0,
+        .creat_time = 0,
+        .mod_time = 0
+    };
+    return inum;
+}
+
+uint16_t mkfile(struct superblock *sb, char *dev);
 
 void copy_to_file(char *dev, uint16_t inode, const void *data, uint16_t n);
 void insert_to_dir(char *dev, uint16_t dinode, const char *name, uint16_t inode);

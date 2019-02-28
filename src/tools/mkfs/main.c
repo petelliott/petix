@@ -6,7 +6,9 @@
 #include "fs.h"
 #include "mkfs.h"
 #include <string.h>
+#include <dirent.h>
 
+uint16_t walkdir(const char *name, struct superblock *sb, char *dev);
 
 int main(int argc, char **argv) {
     if (argc < 5) {
@@ -32,6 +34,7 @@ int main(int argc, char **argv) {
     struct superblock sb;
     mk_superblock(dev, &sb, nblocks, ninodes);
 
+    /*
     uint16_t d1 = mkdir(&sb, dev);
     uint16_t f1 = mkfile(&sb, dev);
 
@@ -43,9 +46,58 @@ int main(int argc, char **argv) {
         append_to_file(&sb, dev, f1, data, sizeof(data)-1);
         append_to_file(&sb, dev, f1, data, sizeof(data)-1);
     }
+    */
+    walkdir(argv[1], &sb, dev);
 
     munmap(dev, nblocks*BLOCK_SIZE);
     close(fd);
 
     return 0;
+}
+
+uint16_t readfile(const char *name, struct superblock *sb, char *dev) {
+    uint16_t inode = mkfile(sb, dev);
+    char buff[BLOCK_SIZE];
+
+    int fd = open(name, O_RDONLY);
+
+    ssize_t n;
+    while (1) {
+        n = read(fd, buff, sizeof(buff));
+        if (n <= 0) {
+            break;
+        }
+        append_to_file(sb, dev, inode, buff, n);
+    }
+
+    close(fd);
+
+    return inode;
+}
+
+uint16_t walkdir(const char *name, struct superblock *sb, char *dev) {
+    DIR *dir;
+    struct dirent *entry;
+
+    if (!(dir = opendir(name))) {
+        abort();
+    }
+
+    uint16_t inode = mkdir(sb, dev);
+
+    while ((entry = readdir(dir)) != NULL) {
+        char path[1024];
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+        snprintf(path, sizeof(path), "%s/%s", name, entry->d_name);
+        if (entry->d_type == DT_DIR) {
+            printf("%s\n",  entry->d_name);
+            insert_to_dir(sb, dev, inode, entry->d_name, walkdir(path, sb, dev));
+        } else {
+            printf("%s\n", entry->d_name);
+            insert_to_dir(sb, dev, inode, entry->d_name, readfile(path, sb, dev));
+        }
+    }
+    closedir(dir);
+    return inode;
 }

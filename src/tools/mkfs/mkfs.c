@@ -177,7 +177,7 @@ void append_to_file(struct superblock *sb, char *dev, uint16_t inode, const void
     }
 
     while (n > 0) {
-        int bllen = n%BLOCK_SIZE;
+        int bllen = (n-1)%BLOCK_SIZE +1;
         append_block(sb, dev, in, datab, bllen);
         datab += bllen;
         n -= bllen;

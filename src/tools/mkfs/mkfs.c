@@ -122,7 +122,7 @@ char *get_block(char *dev, const struct inode *inode, uint16_t off) {
     uint16_t trueblock;
     if (inode->flags & INODE_LARGE) {
         uint16_t ind_block = inode->blocks[block/256];
-        trueblock = *(uint16_t *)(dev + ind_block*BLOCK_SIZE + block%256);
+        trueblock = *((uint16_t *)(dev + ind_block*BLOCK_SIZE) + block%256);
     } else {
         trueblock = inode->blocks[block % 8];
     }
@@ -140,10 +140,11 @@ void append_block(struct superblock *sb, char *dev, struct inode *inode, const c
 
     uint16_t blk_off = inode->size / BLOCK_SIZE;
     if (inode->flags & INODE_LARGE) {
-        abort();
-        //TODO
         assert(blk_off/256 < 8);
         uint16_t ind_block = inode->blocks[blk_off/256];
+        blk_off %= 256;
+        uint16_t *slot = (uint16_t *)(dev + ind_block*BLOCK_SIZE) + blk_off;
+        *slot = block;
     } else {
         assert(blk_off < 8);
         inode->blocks[blk_off] = block;

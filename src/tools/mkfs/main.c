@@ -37,9 +37,12 @@ int main(int argc, char **argv) {
 
     insert_to_dir(&sb, dev, d1, "testfile", f1);
     const char data[] = "hello worlddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfddd\n";
-    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
-    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
-    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+
+    for (int i = 0; i < 16; ++i) {
+        append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+        append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+        append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+    }
 
     munmap(dev, nblocks*BLOCK_SIZE);
     close(fd);

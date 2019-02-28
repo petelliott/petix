@@ -2,13 +2,13 @@
 OBJS=main.o mkfs.o
 
 $(TOOLDIR)/mkfs: $(OBJS)
-	$(TOOL_CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.s
-	$(TOOL_CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 %.o: %.c
-	$(TOOL_CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 .PHONY: clean
 

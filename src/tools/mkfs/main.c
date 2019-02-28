@@ -3,7 +3,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "fs.h"
+#include <fs.h>
 #include "mkfs.h"
 #include <string.h>
 #include <dirent.h>

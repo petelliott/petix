@@ -1,7 +1,7 @@
 #ifndef MKFS
 #define MKFS
 
-#include "fs.h"
+#include <fs.h>
 
 void mk_superblock(char *dev, struct superblock *sb, int nblocks, int ninodes);
 

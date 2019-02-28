@@ -33,10 +33,13 @@ int main(int argc, char **argv) {
     mk_superblock(dev, &sb, nblocks, ninodes);
 
     uint16_t d1 = mkdir(&sb, dev);
-    uint16_t d2 = mkdir(&sb, dev);
-    printf("%i %i\n", d1, d2);
+    uint16_t f1 = mkfile(&sb, dev);
 
-    insert_to_dir(&sb, dev, d1, "testfile", d2);
+    insert_to_dir(&sb, dev, d1, "testfile", f1);
+    const char data[] = "hello worlddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfddd\n";
+    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
+    append_to_file(&sb, dev, f1, data, sizeof(data)-1);
 
     munmap(dev, nblocks*BLOCK_SIZE);
     close(fd);

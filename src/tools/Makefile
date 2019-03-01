@@ -4,7 +4,7 @@ CC=gcc
 CFLAGS =-Wall -g -I$(BUILDROOT)/tools/include
 export
 
-DIRS=mkfs
+DIRS=mkfs mkboot
 PATHS=$(TOOLDIR)
 
 include ../dir.mk

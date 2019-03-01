@@ -10,6 +10,7 @@
 #include "rdfs.h"
 #include "sectors.h"
 
+const int BS_SECT_TABLE = 0736;
 #define CEIL(x,y) (((x) + (y) - 1) / (y))
 
 void copy_bs(char *dev, const char *spec);
@@ -42,7 +43,9 @@ int main(int argc, char **argv) {
         uint16_t block = get_block_n(dev, in, i);
         assert(block != 0);
 
-        printf("%u\n", block);
+        printf("block %u\n", block);
+        printf("%lo\n", BS_SECT_TABLE+i*sizeof(block));
+        memcpy(dev+BS_SECT_TABLE+i*sizeof(block), &block, sizeof(block));
     }
 
     munmap(dev, fsize);

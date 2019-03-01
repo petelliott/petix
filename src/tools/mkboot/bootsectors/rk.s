@@ -11,25 +11,33 @@
 .set BLK_SIZE, -256
 
 start:
-        MOV $pages, R2
+        MOV $sectors, R2
+        MOV $PROG_OFF, R0
 
 sploop:
-        MOV @(R2)+, R3 // load a sector address
-        TST R3
+        MOV (R2)+, R5 // load a sector address
+        TST R5
         BEQ eploop
 
+        MOV $0, R4
+        DIV $12, R4
+        MOV R5, R3 //remainder
+        //MOV R4, R1 //quotient
+        MUL $16, R4
+        ADD R3, R5
+
         MOV $RKDA, R1
-        MOV R3, (R1)         // set disk address
-        MOV $PROG_OFF, -(R1) // set memory address
+        MOV R5, (R1)         // set disk address
+        MOV R0, -(R1)        // set memory address
         MOV $BLK_SIZE, -(R1) // read a block
         MOV $05, -(R1)       // read and go
+
+        ADD $512, R0
 notdone:
         TSTB (R1)
         BPL notdone
-
         BR sploop
 eploop:
-
         // load bss info
         MOV $DATA_START, R0
         ADD @$A_TEXT, R0
@@ -50,6 +58,9 @@ endzerol:
         MOV @$EP_DATA, PC
         HALT
 
-diskn:  .=start+0734
-pages:  .=start+0736
-end:    .=start+01000
+        .=start+0734
+diskn:
+        .=start+0736
+sectors:
+        .=start+01000
+end:

@@ -5,10 +5,17 @@ TOOLDIR=$(shell realpath tools)
 
 export
 
-.PHONY: all clean
+.PHONY: all src clean
 
-all:
+all: src disk.img
+
+src:
 	make -C src/
+
 
 clean:
 	make -C src/ clean
+
+disk.img: root/ tools/
+	tools/mkfs root/ disk.img 256 128
+	tools/mkboot rk0 disk.img /boot/pboot

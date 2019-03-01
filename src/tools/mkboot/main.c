@@ -43,8 +43,6 @@ int main(int argc, char **argv) {
         uint16_t block = get_block_n(dev, in, i);
         assert(block != 0);
 
-        printf("block %u\n", block);
-        printf("%lo\n", BS_SECT_TABLE+i*sizeof(block));
         memcpy(dev+BS_SECT_TABLE+i*sizeof(block), &block, sizeof(block));
     }
 

@@ -185,10 +185,11 @@ void append_to_file(struct superblock *sb, char *dev, uint16_t inode, const void
 }
 
 void insert_to_dir(struct superblock *sb, char *dev, uint16_t dinode, const char *name, uint16_t inode) {
+    printf("%s ", name);
     struct inode *din = get_inode(dev, dinode);
 
-    int inb = din->size / (BLOCK_SIZE/ sizeof(struct dentry));
-    int blkoff = din->size % (BLOCK_SIZE/ sizeof(struct dentry));
+    int inb = din->size / BLOCK_SIZE;
+    int blkoff = din->size % BLOCK_SIZE;
 
     if (din->blocks[inb] == 0) {
         din->blocks[inb] = allocate_block(sb);

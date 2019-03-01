@@ -6,8 +6,10 @@
 #include <stdlib.h>
 #include <fs.h>
 #include <string.h>
+#include <assert.h>
 #include "rdfs.h"
 
+#define CEIL(x,y) (((x) + (y) - 1) / (y))
 
 int main(int argc, char **argv) {
     if (argc < 3) {
@@ -26,7 +28,14 @@ int main(int argc, char **argv) {
     char *dev = mmap(NULL, fsize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
     uint16_t inode =  get_in_path(dev, argv[3], 0);
-    printf("%u\n", inode);
+    struct inode *in = get_inode(dev, inode);
+
+    for (int i = 0; i < CEIL(in->size, BLOCK_SIZE); ++i) {
+        uint16_t block = get_block_n(dev, in, i);
+        assert(block != 0);
+
+        printf("%u\n", block);
+    }
 
     munmap(dev, fsize);
     close(fd);

@@ -2,3 +2,4 @@ disk.img
 /root
 /tools
 *.o
+*.a

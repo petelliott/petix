@@ -1,6 +1,6 @@
 .PHONY: dir clean $(DIRS) $(PATHS)
 
-all: $(DIRS) $(PATHS)
+dir: $(DIRS) $(PATHS)
 	echo $(DIRS) $(PATHS)
 
 clean:

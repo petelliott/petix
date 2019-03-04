@@ -17,5 +17,5 @@ clean:
 	make -C src/ clean
 
 disk.img: $(wildcard src/**/*)
-	tools/mkfs root/ disk.img 256 128
+	tools/mkfs root/ disk.img 2048 256
 	tools/mkboot rk0 disk.img /boot/pboot

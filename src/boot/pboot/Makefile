@@ -1,6 +1,6 @@
 CFLAGS +=-nostdlib -ffreestanding
 
-OBJS=main.o term.o disk.o input.o
+OBJS=main.o term.o disk.o input.o $(BUILDROOT)/kernel/drivers/drivers.a
 
 $(ROOT)/boot/pboot: $(OBJS)
 	$(CC) -T pboot.ld $(CFLAGS) $^ -o $@ -s
@@ -15,3 +15,5 @@ $(ROOT)/boot/pboot: $(OBJS)
 
 clean:
 	rm -rf *.o $(ROOT)/boot/pboot
+
+include ../../extern.mk

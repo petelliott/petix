@@ -1,19 +1,12 @@
 #include "term.h"
-
-static int *const printer_data   = (int *) 0177566;
-static int *const printer_status = (int *) 0177564;
+#include <petix/drivers/DL11-W.h>
 
 void write_term_ch(char ch) {
-    while (!(*printer_status & 1<<7)) {}
-    *printer_data = ch;
+    driver_write_char(&DL11W_driver, ch);
 }
 
-static int *const reader_data   = (int *) 0177562;
-static int *const reader_status = (int *) 0177560;
-
 char read_term_ch(void) {
-    while (!(*reader_status & 1<<7)) {}
-    return *reader_data & 0377;
+    return driver_read_char(&DL11W_driver);
 }
 
 char read_echo_ch(void) {

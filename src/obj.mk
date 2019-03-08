@@ -1,5 +1,5 @@
 
-%.a: $(AROBJS)
+$(ARTARGET): $(AROBJS)
 	$(AR) cr $@ $?
 
 %.o: %.s

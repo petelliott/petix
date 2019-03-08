@@ -12,14 +12,6 @@ struct superblock_h {
     unsigned int ninodes;
 };
 
-struct superblock {
-    struct superblock_h *header;
-    unsigned int *bmap_bytes;
-    char *bmap;
-    unsigned int *imap_bytes;
-    char *imap;
-};
-
 struct inode {
     int flags;
     unsigned char nlinks;

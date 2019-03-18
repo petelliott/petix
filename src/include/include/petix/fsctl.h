@@ -15,7 +15,7 @@ struct superblock {
 struct fs_handle {
     char superblock_data[BLOCK_SIZE * 2];
     struct superblock sb;
-    struct blkdriver;
+    struct blkdriver driver;
 };
 
 int fs_load_sb(struct fs_handle *fs);
@@ -24,14 +24,19 @@ void fs_flush_sb(const struct fs_handle *fs);
 unsigned int fs_allocate_block(struct fs_handle *fs);
 unsigned int fs_allocate_inode(struct fs_handle *fs);
 
-struct inode *fs_get_inode(char *dev, unsigned int inum);
+void fs_get_inode(const struct fs_handle *fs, unsigned int inum, struct inode *inode);
 
 unsigned int fs_mkdir(struct fs_handle *fs);
 unsigned int fs_touch(struct fs_handle *fs);
 
-void fs_dir_insert(struct fs_handle *fs, unsigned int dinode, const char *name, unsigned int inode);
+void fs_upgrade_to_large(struct fs_handle *fs, unsigned int inum);
+void fs_resize_file(struct fs_handle *fs, unsigned int inum, int delta);
+
+void fs_dir_insert(struct fs_handle *fs, unsigned int dinode, const char *name, unsigned int inum);
 void fs_write(struct fs_handle *fs, unsigned int off, const char *data, unsigned int len);
 void fs_read(struct fs_handle *fs, unsigned int off, char *data, unsigned int len);
 
+unsigned int fs_lookup(struct fs_handle *fs, const char *path);
+unsigned int fs_unlink(struct fs_handle *fs, char char *path);
 
 #endif

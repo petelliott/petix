@@ -1,4 +1,4 @@
-#include <a.out.h>
+#include <petix/a.out.h>
 #include "term.h"
 #include "disk.h"
 #include "input.h"

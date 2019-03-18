@@ -7,7 +7,7 @@ BUILDROOT=$(shell pwd)
 CFLAGS =-Wall -g -I$(BUILDROOT)/include/include -nostdlib
 export
 
-DIRS=boot include tools kernel
+DIRS=boot include tools kernel lib
 PATHS=$(ROOT)
 
 include dir.mk

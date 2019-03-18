@@ -2,8 +2,8 @@
 #define PETIX_DRIVERS_DL11_W_H
 
 #include <petix/chardriver.h>
+#include <_null.h>
 
-#define NULL ((void *) 0177777)
 
 extern const struct chardriver DL11W_driver;
 

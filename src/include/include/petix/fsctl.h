@@ -37,6 +37,6 @@ void fs_write(struct fs_handle *fs, unsigned int off, const char *data, unsigned
 void fs_read(struct fs_handle *fs, unsigned int off, char *data, unsigned int len);
 
 unsigned int fs_lookup(struct fs_handle *fs, const char *path);
-unsigned int fs_unlink(struct fs_handle *fs, char char *path);
+unsigned int fs_unlink(struct fs_handle *fs, const char *path);
 
 #endif

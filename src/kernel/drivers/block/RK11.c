@@ -29,7 +29,6 @@ void RK11_wait(void *extra) {
 }
 
 int RK11_read_block(unsigned int block, void *extra, char *loc) {
-    RK11_wait(extra);
     *RKDA = RK11_make_RKDA(block, (int) extra);
     *RKBA = (unsigned int) loc;
     *RKWC = -BLOCK_SIZE/2;
@@ -38,7 +37,6 @@ int RK11_read_block(unsigned int block, void *extra, char *loc) {
 }
 
 int RK11_write_block(unsigned int block, void *extra, const char *loc) {
-    RK11_wait(extra);
     *RKDA = RK11_make_RKDA(block, (int) extra);
     *RKBA = (unsigned int) loc;
     *RKWC = -BLOCK_SIZE/2;

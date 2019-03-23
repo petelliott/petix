@@ -9,7 +9,7 @@ ARCHIVES=drivers/drivers.a fs/fs.a
 all: dir $(ROOT)/petix
 
 $(ROOT)/petix: $(OBJS) kernel.ld
-	$(CC) $(CFLAGS) $(OBJS) $(ARCHIVES) -T kernel.ld -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(ARCHIVES) -lgcc -T kernel.ld -o $@
 
 DIRS=drivers fs
 PATHS=$(ROOT)

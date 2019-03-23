@@ -34,7 +34,7 @@ struct inode {
 #define INODE_R_OTHER   0000002
 #define INODE_W_OTHER   0000001
 
-#define FIRST_INODE     040
+#define FIRST_INODE     040 // this means nothing until we make device files.
 
 struct dentry {
     unsigned int inode;

@@ -1,6 +1,6 @@
 CFLAGS +=-nostdlib -ffreestanding
 
-OBJS=main.o term.o disk.o input.o $(BUILDROOT)/kernel/drivers/drivers.a
+OBJS=main.o term.o disk.o input.o readfile.o $(BUILDROOT)/kernel/drivers/drivers.a $(BUILDROOT)/lib/libc/libc.a
 
 $(ROOT)/boot/pboot: $(OBJS)
 	$(CC) -T pboot.ld $(CFLAGS) $^ -o $@ -s

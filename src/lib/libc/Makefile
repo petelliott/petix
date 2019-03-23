@@ -1,4 +1,4 @@
-AROBJS=string/memcpy.o
+AROBJS=string/memcpy.o string/strncmp.o
 ARTARGET=libc.a
 
 .PHONY: all

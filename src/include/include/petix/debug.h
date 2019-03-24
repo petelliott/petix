@@ -1,8 +1,8 @@
 #ifndef PETIX_PANIC_H
 #define PETIX_PANIC_H
 
-#define kassert(tst) kassert_internal(tst, __LINE__, __FILE__, #tst)
-#define panic(str) panic_internal(str, __LINE__, __FILE__)
+#define kassert(tst) kassert_internal((tst), __LINE__, __FILE__, #tst)
+#define panic(str) panic_internal((str), __LINE__, __FILE__)
 
 void kputc(char ch);
 void kputs(const char *str);

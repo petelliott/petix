@@ -1,8 +1,8 @@
-.PHONY: dir clean $(DIRS) $(PATHS)
+.PHONY: dir dirclean $(DIRS) $(PATHS)
 
 dir: $(DIRS) $(PATHS)
 
-clean:
+dirclean:
 	for x in $(DIRS); do make -C $$x clean; done;
 	rm -rf $(PATHS)
 

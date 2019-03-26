@@ -10,4 +10,8 @@ export
 DIRS=boot include tools kernel lib
 PATHS=$(ROOT)
 
+.PHONY: clean
+
+clean: dirclean
+
 include dir.mk

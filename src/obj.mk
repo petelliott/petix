@@ -1,3 +1,4 @@
+.PHONY: objclean
 
 $(ARTARGET): $(AROBJS)
 	$(AR) cr $@ $?
@@ -8,5 +9,5 @@ $(ARTARGET): $(AROBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-clean:
+objclean:
 	rm -rf *.o $(AROBJS) *.a

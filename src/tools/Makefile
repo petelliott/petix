@@ -7,4 +7,7 @@ export
 DIRS=mkfs mkboot
 PATHS=$(TOOLDIR)
 
+.PHONY: clean
+clean: dirclean
+
 include ../dir.mk

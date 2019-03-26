@@ -4,7 +4,7 @@ OBJS=debug.o
 ARCHIVES=drivers/drivers.a fs/fs.a
 
 
-.PHONY: all
+.PHONY: all clean
 
 all: dir $(ROOT)/petix
 
@@ -13,6 +13,8 @@ $(ROOT)/petix: $(OBJS) kernel.ld
 
 DIRS=drivers fs
 PATHS=$(ROOT)
+
+clean: dirclean objclean
 
 include ../dir.mk
 include ../obj.mk

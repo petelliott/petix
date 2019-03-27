@@ -11,12 +11,12 @@ int open_RK11(struct blkdriver *driver, int drivenum) {
     return 0;
 }
 
-/* calculates the RKDA register for a given sector, and drive number */
+/* calculates the RKDA register for a given sector, and drive number. */
 unsigned int RK11_make_RKDA(unsigned int sector, int drivenum) {
     unsigned int lsector = sector % 012;
     sector /= 012;
-    unsigned int surface = (sector % 02);
-    unsigned int track = (sector / 02);
+    unsigned int surface = sector % 02;
+    unsigned int track = sector / 02;
 
     return (drivenum << 13)
         | (track << 5)

@@ -16,26 +16,27 @@ the installation process is as follows:
 
 download the latest version of [binutils](https://ftp.gnu.org/gnu/binutils/)
 
-```
+```bash
 tar xvf /path/to/binutils-version-stuff.tar.bz2
 cd binutils-version-stuff
 mkdir build-pdp11-aout
 cd build-pdp11-aout
-../configure --target=pdp11-aout --prefix=/usr/local
+../configure --target=pdp11-aout --prefix=$PREFIX
 make
 sudo make install
 ```
 
 ### gcc
 
-download the latest version of [gcc](https://ftp.gnu.org/gnu/gcc/)
+download gcc 9 or greater [gcc](https://ftp.gnu.org/gnu/gcc/). if gcc 9 has not
+been released yet, get a development snapshot.
 
-```
+```bash
 tar xvf /path/to/gcc-version-stuff.tar.bz2
 cd gcc-version-stuff
 mkdir build-pdp11-aout
 cd build-pdp11-aout
-../configure --target=pdp11-aout --prefix=/usr/local --enable-languages=c --disable-libssp
+../configure --target=pdp11-aout --prefix=$PREFIX --enable-languages=c --disable-libssp
 make
 sudo make install
 ```

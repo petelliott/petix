@@ -2,6 +2,9 @@
 #include "term.h"
 #include "disk.h"
 #include "input.h"
+#include <petix/blkdriver.h>
+#include "readfile.h"
+#include <petix/debug.h>
 
 
 void _start(void) {
@@ -21,7 +24,16 @@ void _start(void) {
             case HALT:
                 asm("HALT");
                 break;
-            case BOOT:
+            case BOOT:;
+                /*
+                struct pboot_boot *binf = &(cmd.cmd_data.boot);
+                struct blkdriver driver;
+                if (open_driver(binf->disktype, binf->diskn, &driver) == -1) {
+                    write_str("invalid boot disk specifier");
+                    continue;
+                }
+                */
+                /*
                 write_str("this is when we should boot\r\n");
                 write_term_ch(cmd.cmd_data.boot.disktype[0]);
                 write_term_ch(cmd.cmd_data.boot.disktype[1]);
@@ -29,6 +41,7 @@ void _start(void) {
                 write_str("\r\n");
                 write_str(cmd.cmd_data.boot.bootf);
                 write_str("\r\n");
+                */
                 break;
             case HELP:
                 write_str("halt\r\n"

@@ -5,9 +5,9 @@
 
 void kputc(char ch) {
     if (ch == '\n') {
-        driver_write_char(&DL11W_driver, '\r');
+        DL11W_write_char(NULL, '\r');
     }
-    driver_write_char(&DL11W_driver, ch);
+    DL11W_write_char(NULL, ch);
 }
 
 void kputs(const char *str) {
@@ -17,14 +17,14 @@ void kputs(const char *str) {
 }
 
 
-static void putuintnz(unsigned long int num) {
+static void putuintnz(unsigned int num) {
     if (num != 0) {
         putuintnz(num/10);
         kputc((num % 10) + '0');
     }
 }
 
-static void putuint(unsigned long int num) {
+static void putuint(unsigned int num) {
     if (num == 0) {
         kputc('0');
     } else {

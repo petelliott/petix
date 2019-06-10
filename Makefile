@@ -5,13 +5,15 @@ TOOLDIR=$(shell realpath tools)
 
 export
 
-.PHONY: all src clean
+.PHONY: all src clean sim
 
 all: src disk.img
 
+sim: all boot.ini
+	simh-pdp11 boot.ini
+
 src:
 	make -C src/
-
 
 clean:
 	make -C src/ clean

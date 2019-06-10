@@ -2,11 +2,21 @@
 #include <petix/fs.h>
 #include <petix/debug.h>
 
+#include <petix/drivers/RK11.h>
+
 #define PETIX_LIBC_FREESTANDING
 #include <string.h>
 
-
-void open_driver(const char *name, int dnum, struct blkdriver *driver);
+/* opens a block driver based on name and drive number. returns 0 when
+ * successful, -1 otherwise
+ */
+int open_driver(const char *name, int dnum, struct blkdriver *driver) {
+    if (strncmp(name, "rk", 2) == 0) {
+        open_RK11(driver, dnum);
+        return 0;
+    }
+    return -1;
+}
 
 static unsigned int currblock = 0;
 static char blkbuff[BLOCK_SIZE];
@@ -45,7 +55,7 @@ static unsigned int one_level_dir(const struct blkdriver *driver, const char *na
         }
     }
 
-    panic("file not found in directory");
+    //panic("file not found in directory");
     return 0;
 }
 
@@ -81,6 +91,9 @@ int readfile(const struct blkdriver *driver, const char *path, char *loc) {
 
     //TODO: support non root boot files.
     unsigned int inum = one_level_dir(driver, path, &inode);
+    if (inum == 0) {
+        return -1;
+    }
     get_inode(driver, inum, &inode);
 
     for (int i = 0; i < inode.size; ++i) {

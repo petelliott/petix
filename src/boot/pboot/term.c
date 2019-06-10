@@ -1,12 +1,13 @@
 #include "term.h"
 #include <petix/drivers/DL11-W.h>
+#include <petix/debug.h>
 
 void write_term_ch(char ch) {
-    driver_write_char(&DL11W_driver, ch);
+    DL11W_write_char(NULL, ch);
 }
 
 char read_term_ch(void) {
-    return driver_read_char(&DL11W_driver);
+    return DL11W_read_char(NULL);
 }
 
 char read_echo_ch(void) {

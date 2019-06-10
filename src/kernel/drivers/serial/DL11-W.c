@@ -1,10 +1,12 @@
 #include <petix/drivers/DL11-W.h>
 
-const struct chardriver DL11W_driver = {
-    .extra = NULL,
-    .read_char = DL11W_read_char,
-    .write_char = DL11W_write_char
-};
+
+int open_DL11W(struct chardriver *chardriver) {
+    chardriver->extra = NULL;
+    chardriver->read_char = &DL11W_read_char;
+    chardriver->write_char = &DL11W_write_char;
+    return 0;
+}
 
 char DL11W_read_char(void *extra) {
     while (!(*RCSR & 1<<7)) {}
